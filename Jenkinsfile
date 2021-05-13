@@ -1,20 +1,21 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Build Stage:'
-                chmod +x gradlew
-                withGradle{
-                    gradlew build
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Test Stage'
-            }
-        }
+  agent any
+  
+  
+  stages {
+    stage('Setup') {
+      steps {
+        sh 'pwd'
+        sh 'ls -al'
+        sh 'chmod +x gradlew'
+      }
     }
+    stage('Test') {
+      steps {
+        withGradle {
+          sh './gradlew clean test'
+        }
+      }
+    }
+  }
 }
