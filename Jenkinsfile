@@ -3,17 +3,20 @@ pipeline {
   
   
   stages {
-    stage('Setup') {
+    stage('Build') {
       steps {
         sh 'pwd'
         sh 'ls -al'
         sh 'chmod +x gradlew'
+        withGradle {
+          sh './gradlew build'
+        }
       }
     }
     stage('Test') {
       steps {
         withGradle {
-          sh './gradlew clean test'
+          sh './gradlew test'
         }
       }
     }
